@@ -1,0 +1,16 @@
+# docker-compose.yml
+version: "3.8"
+
+services:
+  tts-service:
+    build: .
+    image: tts-grpc-service:latest
+    ports:
+      - "50051:50051"
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "grpcurl ‑plaintext localhost:50051 audio_service.AudioService/Synthesize"]
+      interval: 30s
+      retries: 3
+    command: ["python", "-u", "-m", "server.server"]
