@@ -3,8 +3,8 @@ from concurrent import futures
 import grpc
 from dotenv import load_dotenv
 
-import server.audio_service_pb2 as audio_pb2
-import server.audio_service_pb2_grpc as audio_pb2_grpc
+from . import audio_service_pb2 as audio_pb2
+from . import audio_service_pb2_grpc as audio_pb2_grpc
 from domain.tts import SynthesisRequest
 from services.tts_service import TTSService
 
@@ -27,7 +27,20 @@ class AudioServiceServicer(audio_pb2_grpc.AudioServiceServicer):
 def serve():
     port = os.getenv("SERVER_PORT", "50051")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
+
+
     audio_pb2_grpc.add_AudioServiceServicer_to_server(AudioServiceServicer(), server)
+
+
+    from grpc_reflection.v1alpha import enable_server_reflection, reflection
+
+    SERVICE_NAMES = [
+        audio_pb2.DESCRIPTOR.services_by_name['AudioService'].full_name,
+        reflection.SERVICE_NAME,
+    ]
+    enable_server_reflection(SERVICE_NAMES, server)
+
+    # 3. Открываем порт и стартуем
     server.add_insecure_port(f"[::]:{port}")
     print(f"gRPC server listening on {port}")
     server.start()

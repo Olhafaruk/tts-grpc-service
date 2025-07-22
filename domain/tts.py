@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 class SynthesisRequest:
     def __init__(self, text: str):
         self.text = text
