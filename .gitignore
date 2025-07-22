@@ -5,4 +5,6 @@ __pycache__/
 .idea/
 output.mp3
 *.pyo
+*.mp3
+
 
