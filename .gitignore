@@ -1,5 +1,10 @@
-venv/
+.venv/
 __pycache__/
 *.pyc
 .env
 .idea/
+output.mp3
+*.pyo
+*.mp3
+
+

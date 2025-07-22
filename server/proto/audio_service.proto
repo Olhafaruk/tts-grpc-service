@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package audio_service;
+
+service AudioService {
+  // Принимает текст, возвращает байты аудио
+  rpc Synthesize (SynthesisRequest) returns (SynthesisResponse);
+}
+
+message SynthesisRequest {
+  string text = 1;
+}
+
+message SynthesisResponse {
+  bytes audio = 1;
+}
