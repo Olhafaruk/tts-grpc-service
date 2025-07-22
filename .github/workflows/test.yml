@@ -28,4 +28,4 @@ jobs:
 
     - name: 🧪 Запуск тестов
       run: |
-        make test
+        pytest tests/
