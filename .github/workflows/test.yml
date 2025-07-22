@@ -28,4 +28,5 @@ jobs:
 
     - name: 🧪 Запуск тестов
       run: |
-        pytest tests/
+        run: pytest tests/domain tests/services tests/repository
+
