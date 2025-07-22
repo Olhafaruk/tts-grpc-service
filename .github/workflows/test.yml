@@ -27,6 +27,5 @@ jobs:
         pip install pytest
 
     - name: 🧪 Запуск тестов
-      run: |
-        run: pytest tests/domain tests/services tests/repository
+      run: pytest tests/domain tests/services tests/repository
 
