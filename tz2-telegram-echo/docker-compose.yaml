@@ -1,0 +1,11 @@
+
+services:
+  telegram-echo:
+    build: .
+    command: python3 -u /app/generate_session.py
+    environment:
+      - API_ID=${API_ID}
+      - API_HASH=${API_HASH}
+      - SESSION_STRING=${SESSION_STRING}
+
+
