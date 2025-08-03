@@ -7,7 +7,7 @@ API_ID      = int(os.getenv("API_ID"))
 API_HASH    = os.getenv("API_HASH")
 SESSION_STR = os.getenv("SESSION_STRING")
 
-# Единственный клиент во всём проекте
+
 client = TelegramClient(
     StringSession(SESSION_STR),
     API_ID,
