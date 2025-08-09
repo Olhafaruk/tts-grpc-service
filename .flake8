@@ -1,0 +1,20 @@
+# .flake8
+[flake8]
+max-line-length = 88
+extend-ignore =
+    D100,  # пропущенная докстринг в модуле
+    D101,  # пропущенная докстринг в классе
+    D102,  # пропущенная докстринг в методе
+    D103,  # пропущенная докстринг в функции
+    D104   # пропущенная докстринг в пакете
+exclude =
+    .venv,
+    __pycache__,
+    server/audio_service_pb2.py,
+    server/audio_service_pb2_grpc.py,
+    tz2-telegram-echo/**
+per-file-ignores =
+    # __init__-файлы везде без докстрингов
+    **/__init__.py: D104
+    # в тестах не требуют докстрингов
+    tests/**/*.py: D
