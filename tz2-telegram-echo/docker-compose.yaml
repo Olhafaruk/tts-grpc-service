@@ -8,4 +8,9 @@ services:
       - API_HASH=${API_HASH}
       - SESSION_STRING=${SESSION_STRING}
 
-
+  lint:
+    build:
+      context: .
+      dockerfile: Dockerfile.lint
+    volumes:
+      - .:/app

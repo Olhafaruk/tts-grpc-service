@@ -1,14 +1,19 @@
 import os
 from concurrent import futures
+
 import grpc
 from dotenv import load_dotenv
 
-from . import audio_service_pb2 as audio_pb2
-from . import audio_service_pb2_grpc as audio_pb2_grpc
 from domain.tts import SynthesisRequest
 from services.tts_service import TTSService
 
+from . import audio_service_pb2 as audio_pb2
+from . import audio_service_pb2_grpc as audio_pb2_grpc
+
+from grpc_reflection.v1alpha import enable_server_reflection, reflection
+
 load_dotenv()
+
 
 class AudioServiceServicer(audio_pb2_grpc.AudioServiceServicer):
     def __init__(self):
@@ -24,18 +29,16 @@ class AudioServiceServicer(audio_pb2_grpc.AudioServiceServicer):
         dom_res = self.tts.synthesize(dom_req)
         return audio_pb2.SynthesisResponse(audio=dom_res.audio_bytes)
 
+
 def serve():
     port = os.getenv("SERVER_PORT", "50051")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
 
-
     audio_pb2_grpc.add_AudioServiceServicer_to_server(AudioServiceServicer(), server)
 
 
-    from grpc_reflection.v1alpha import enable_server_reflection, reflection
-
     SERVICE_NAMES = [
-        audio_pb2.DESCRIPTOR.services_by_name['AudioService'].full_name,
+        audio_pb2.DESCRIPTOR.services_by_name["AudioService"].full_name,
         reflection.SERVICE_NAME,
     ]
     enable_server_reflection(SERVICE_NAMES, server)
@@ -45,6 +48,7 @@ def serve():
     print(f"gRPC server listening on {port}")
     server.start()
     server.wait_for_termination()
+
 
 if __name__ == "__main__":
     serve()

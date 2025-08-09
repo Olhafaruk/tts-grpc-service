@@ -1,19 +1,23 @@
-#tests/integration/test_grpc_client.py
+# tests/integration/test_grpc_client.py
+
+import os
 
 import grpc
-import os
 import pytest
+
 from server import audio_service_pb2, audio_service_pb2_grpc
 
 
-@pytest.mark.parametrize("text", [
-    "Hello, gRPC!",
-    "Привет, привет!",
-    "Bonjour le monde!",
-    "Hallo Halli!",
-    "Привіт, моє сонечко!",
-])
-
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Hello, gRPC!",
+        "Привет, привет!",
+        "Bonjour le monde!",
+        "Hallo Halli!",
+        "Привіт, моє сонечко!",
+    ],
+)
 def test_synthesize_returns_audio_for_various_languages(text):
     port = os.getenv("SERVER_PORT", "50051")
     channel = grpc.insecure_channel(f"localhost:{port}")

@@ -1,6 +1,8 @@
-#tests/repository/test_gtts_provider.py
+# tests/repository/test_gtts_provider.py
 import os
+
 from repository.gtts_provider import GTTSProvider
+
 
 def test_gtts_returns_bytes(monkeypatch):
     monkeypatch.setenv("TTS_LANG", "en")

@@ -1,9 +1,13 @@
-import io, os
-from gtts import gTTS
+import io
+import os
+
 from dotenv import load_dotenv
+from gtts import gTTS
+
 from domain.tts import TTSProvider
 
 load_dotenv()
+
 
 class GTTSProvider(TTSProvider):
     def __init__(self):

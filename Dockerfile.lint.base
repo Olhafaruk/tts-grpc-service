@@ -1,0 +1,21 @@
+# Dockerfile.lint.base
+FROM python:3.11-slim
+
+# 1. Устанавливаем git и очищаем кэш apt
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends git \
+ && rm -rf /var/lib/apt/lists/*
+
+# 2. Обновляем pip и ставим линтеры + pre-commit
+RUN pip install --upgrade pip \
+ && pip install \
+      black==23.9.1 \
+      isort==5.12.0 \
+      flake8==6.1.0 \
+      pre-commit==3.4.0
+
+# Рабочая директория
+WORKDIR /app
+
+# По умолчанию запускаем pre-commit-хуки по всем файлам
+ENTRYPOINT ["pre-commit", "run", "--all-files", "--show-diff-on-failure"]
