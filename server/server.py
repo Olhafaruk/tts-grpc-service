@@ -3,14 +3,13 @@ from concurrent import futures
 
 import grpc
 from dotenv import load_dotenv
+from grpc_reflection.v1alpha import enable_server_reflection, reflection
 
 from domain.tts import SynthesisRequest
 from services.tts_service import TTSService
 
 from . import audio_service_pb2 as audio_pb2
 from . import audio_service_pb2_grpc as audio_pb2_grpc
-
-from grpc_reflection.v1alpha import enable_server_reflection, reflection
 
 load_dotenv()
 
@@ -35,7 +34,6 @@ def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
 
     audio_pb2_grpc.add_AudioServiceServicer_to_server(AudioServiceServicer(), server)
-
 
     SERVICE_NAMES = [
         audio_pb2.DESCRIPTOR.services_by_name["AudioService"].full_name,
