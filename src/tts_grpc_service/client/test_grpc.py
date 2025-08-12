@@ -1,7 +1,7 @@
 # client/test_grpc.py
 import grpc
 
-from server import audio_service_pb2, audio_service_pb2_grpc
+from tts_grpc_service.grpc import audio_service_pb2, audio_service_pb2_grpc
 
 
 def main():

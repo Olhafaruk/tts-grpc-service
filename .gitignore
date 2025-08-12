@@ -1,10 +1,14 @@
 .venv/
 __pycache__/
+*.py[cod]
+*.so
 *.pyc
 .env
 .idea/
 output.mp3
 *.pyo
 *.mp3
+*.egg-info/
+
 
 

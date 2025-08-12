@@ -4,7 +4,8 @@ import os
 from dotenv import load_dotenv
 from gtts import gTTS
 
-from domain.tts import TTSProvider
+from tts_grpc_service.domain.tts import TTSProvider
+
 
 load_dotenv()
 

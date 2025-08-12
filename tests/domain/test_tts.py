@@ -1,5 +1,5 @@
 # tests/domain/test_tts.py
-from domain.tts import SynthesisRequest, SynthesisResponse
+from tts_grpc_service.domain.tts import SynthesisRequest, SynthesisResponse
 
 
 def test_models_hold_values():

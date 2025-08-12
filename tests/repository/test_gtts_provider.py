@@ -1,7 +1,7 @@
 # tests/repository/test_gtts_provider.py
 
 
-from repository.gtts_provider import GTTSProvider
+from tts_grpc_service.repository.gtts_provider import GTTSProvider
 
 
 def test_gtts_returns_bytes(monkeypatch):

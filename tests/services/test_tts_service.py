@@ -1,7 +1,7 @@
 # tests/services/test_tts_service.py
 
-from domain.tts import SynthesisRequest
-from services.tts_service import TTSService
+from tts_grpc_service.domain.tts import SynthesisRequest
+from tts_grpc_service.services.tts_service import TTSService
 
 
 class DummyProv:

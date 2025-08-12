@@ -1,5 +1,5 @@
-from domain.tts import SynthesisRequest, SynthesisResponse
-from repository.gtts_provider import GTTSProvider
+from tts_grpc_service.domain.tts import SynthesisRequest, SynthesisResponse
+from tts_grpc_service.repository.gtts_provider import GTTSProvider
 
 
 class TTSService:
