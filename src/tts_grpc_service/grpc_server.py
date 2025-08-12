@@ -1,17 +1,17 @@
+#src/tts_grpc_service/grpc_server.py
+
 import os
 from concurrent import futures
 
 import grpc
-from dotenv import load_dotenv
-from grpc_reflection.v1alpha import enable_server_reflection, reflection
 
-from domain.tts import SynthesisRequest
-from services.tts_service import TTSService
+from tts_grpc_service.config import configure_logging
 
-from . import audio_service_pb2 as audio_pb2
-from . import audio_service_pb2_grpc as audio_pb2_grpc
+from tts_grpc_service.domain.tts import SynthesisRequest
+from tts_grpc_service.services.tts_service import TTSService
 
-load_dotenv()
+from tts_grpc_service.grpc import audio_service_pb2 as audio_pb2
+from tts_grpc_service.grpc import audio_service_pb2_grpc as audio_pb2_grpc
 
 
 class AudioServiceServicer(audio_pb2_grpc.AudioServiceServicer):
@@ -35,13 +35,6 @@ def serve():
 
     audio_pb2_grpc.add_AudioServiceServicer_to_server(AudioServiceServicer(), server)
 
-    SERVICE_NAMES = [
-        audio_pb2.DESCRIPTOR.services_by_name["AudioService"].full_name,
-        reflection.SERVICE_NAME,
-    ]
-    enable_server_reflection(SERVICE_NAMES, server)
-
-    # 3. Открываем порт и стартуем
     server.add_insecure_port(f"[::]:{port}")
     print(f"gRPC server listening on {port}")
     server.start()
@@ -49,4 +42,5 @@ def serve():
 
 
 if __name__ == "__main__":
+    configure_logging()
     serve()
