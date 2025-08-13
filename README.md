@@ -29,7 +29,7 @@ docker-compose up --build
 ## 🎧 Клиент
 
 ```bash
-python -m client.test_grpc
+python -m tts-grpc-service.client.test_grpc
 ```
 
 🔊 Сохранит аудиофайл `out.mp3` по тексту `"Приветствую, Halli Hallo, gRPC!"`

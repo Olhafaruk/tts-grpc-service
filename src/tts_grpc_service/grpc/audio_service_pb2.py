@@ -6,25 +6,25 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import symbol_database as _symbol_database
 from google.protobuf.internal import builder as _builder
+
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
 
-
-
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x13\x61udio_service.proto\x12\raudio_service\" \n\x10SynthesisRequest\x12\x0c\n\x04text\x18\x01 \x01(\t\"\"\n\x11SynthesisResponse\x12\r\n\x05\x61udio\x18\x01 \x01(\x0c\x32_\n\x0c\x41udioService\x12O\n\nSynthesize\x12\x1f.audio_service.SynthesisRequest\x1a .audio_service.SynthesisResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
+    b'\n\x13\x61udio_service.proto\x12\raudio_service" \n\x10SynthesisRequest\x12\x0c\n\x04text\x18\x01 \x01(\t""\n\x11SynthesisResponse\x12\r\n\x05\x61udio\x18\x01 \x01(\x0c\x32_\n\x0c\x41udioService\x12O\n\nSynthesize\x12\x1f.audio_service.SynthesisRequest\x1a .audio_service.SynthesisResponseb\x06proto3'
+)
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'audio_service_pb2', _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "audio_service_pb2", _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
-
-  DESCRIPTOR._options = None
-  _globals['_SYNTHESISREQUEST']._serialized_start=38
-  _globals['_SYNTHESISREQUEST']._serialized_end=70
-  _globals['_SYNTHESISRESPONSE']._serialized_start=72
-  _globals['_SYNTHESISRESPONSE']._serialized_end=106
-  _globals['_AUDIOSERVICE']._serialized_start=108
-  _globals['_AUDIOSERVICE']._serialized_end=203
+    DESCRIPTOR._options = None
+    _globals["_SYNTHESISREQUEST"]._serialized_start = 38
+    _globals["_SYNTHESISREQUEST"]._serialized_end = 70
+    _globals["_SYNTHESISRESPONSE"]._serialized_start = 72
+    _globals["_SYNTHESISRESPONSE"]._serialized_end = 106
+    _globals["_AUDIOSERVICE"]._serialized_start = 108
+    _globals["_AUDIOSERVICE"]._serialized_end = 203
 # @@protoc_insertion_point(module_scope)

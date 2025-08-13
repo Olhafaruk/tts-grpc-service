@@ -7,6 +7,7 @@ import pytest
 
 from tts_grpc_service.grpc import audio_service_pb2, audio_service_pb2_grpc
 
+
 @pytest.mark.parametrize(
     "text",
     [

@@ -1,20 +1,19 @@
-#src/tts_grpc_service/grpc_server.py
+# src/tts_grpc_service/grpc_server.py
 
 import os
 from concurrent import futures
 
 import grpc
 
-from tts_grpc_service.config import load_env, configure_logging
-
+from tts_grpc_service.config import configure_logging, load_env
 from tts_grpc_service.domain.tts import SynthesisRequest
-from tts_grpc_service.services.tts_service import TTSService
-
 from tts_grpc_service.grpc import audio_service_pb2 as audio_pb2
 from tts_grpc_service.grpc import audio_service_pb2_grpc as audio_pb2_grpc
+from tts_grpc_service.services.tts_service import TTSService
 
 load_env()
 configure_logging()
+
 
 class AudioServiceServicer(audio_pb2_grpc.AudioServiceServicer):
     def __init__(self):

@@ -6,7 +6,6 @@ from gtts import gTTS
 
 from tts_grpc_service.domain.tts import TTSProvider
 
-
 load_dotenv()
 
 

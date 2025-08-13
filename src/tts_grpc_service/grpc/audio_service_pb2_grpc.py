@@ -5,7 +5,6 @@ import grpc
 from tts_grpc_service.grpc import audio_service_pb2 as audio__service__pb2
 
 
-
 class AudioServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
@@ -16,53 +15,65 @@ class AudioServiceStub(object):
             channel: A grpc.Channel.
         """
         self.Synthesize = channel.unary_unary(
-                '/audio_service.AudioService/Synthesize',
-                request_serializer=audio__service__pb2.SynthesisRequest.SerializeToString,
-                response_deserializer=audio__service__pb2.SynthesisResponse.FromString,
-                )
+            "/audio_service.AudioService/Synthesize",
+            request_serializer=audio__service__pb2.SynthesisRequest.SerializeToString,
+            response_deserializer=audio__service__pb2.SynthesisResponse.FromString,
+        )
 
 
 class AudioServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Synthesize(self, request, context):
-        """Принимает текст, возвращает байты аудио
-        """
+        """Принимает текст, возвращает байты аудио"""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
 
 def add_AudioServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Synthesize': grpc.unary_unary_rpc_method_handler(
-                    servicer.Synthesize,
-                    request_deserializer=audio__service__pb2.SynthesisRequest.FromString,
-                    response_serializer=audio__service__pb2.SynthesisResponse.SerializeToString,
-            ),
+        "Synthesize": grpc.unary_unary_rpc_method_handler(
+            servicer.Synthesize,
+            request_deserializer=audio__service__pb2.SynthesisRequest.FromString,
+            response_serializer=audio__service__pb2.SynthesisResponse.SerializeToString,
+        ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'audio_service.AudioService', rpc_method_handlers)
+        "audio_service.AudioService", rpc_method_handlers
+    )
     server.add_generic_rpc_handlers((generic_handler,))
 
 
- # This class is part of an EXPERIMENTAL API.
+# This class is part of an EXPERIMENTAL API.
 class AudioService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def Synthesize(request,
+    def Synthesize(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/audio_service.AudioService/Synthesize',
+            "/audio_service.AudioService/Synthesize",
             audio__service__pb2.SynthesisRequest.SerializeToString,
             audio__service__pb2.SynthesisResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )

@@ -2,9 +2,8 @@
 
 import asyncio
 
-from telethon import events
-
 from repository.tg_client import client
+from telethon import events
 
 
 @client.on(events.NewMessage(incoming=True))

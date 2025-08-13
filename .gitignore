@@ -5,7 +5,7 @@ __pycache__/
 *.pyc
 .env
 .idea/
-output.mp3
+out.mp3
 *.pyo
 *.mp3
 *.egg-info/
