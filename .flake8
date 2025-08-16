@@ -12,8 +12,8 @@ extend-ignore =
 exclude =
     .venv,
     __pycache__,
-    server/audio_service_pb2.py,
-    server/audio_service_pb2_grpc.py,
+    src/tts_grpc_service/grpc/audio_service_pb2.py
+    src/tts_grpc_service/grpc/audio_service_pb2_grpc.py,
     tz2-telegram-echo/**
 per-file-ignores =
     **/__init__.py: D104

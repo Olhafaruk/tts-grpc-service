@@ -1,18 +1,18 @@
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
 
+@dataclass
 class SynthesisRequest:
-    def __init__(self, text: str):
-        self.text = text
+    text: str
 
 
+@dataclass
 class SynthesisResponse:
-    def __init__(self, audio_bytes: bytes):
-        self.audio_bytes = audio_bytes
+    audio_bytes: bytes
 
 
-class TTSProvider(ABC):
+class SpeechSynthesizer(ABC):
     @abstractmethod
     def synthesize(self, text: str) -> bytes:
-        """Возвращает аудио-байты по входному тексту."""
-        ...
+        pass

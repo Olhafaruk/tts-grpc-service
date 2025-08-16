@@ -9,6 +9,8 @@ out.mp3
 *.pyo
 *.mp3
 *.egg-info/
-
+tree_tool.py
+diagram.md
+structure.txt
 
 
