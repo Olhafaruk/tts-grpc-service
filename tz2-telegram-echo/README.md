@@ -19,7 +19,7 @@
 1. Клонировать репозиторий и перейти в папку проекта  
    ```bash
    git clone https://github.com/Olhafaruk/tts-grpc-service.git
-   cd tts-grpc-service/tz2-telegram-echo/tz2-telegram-echo
+   cd tts-grpc-service/tz2-telegram-echo
    ```
 
 2. Скопировать пример env-файла и заполнить переменные  

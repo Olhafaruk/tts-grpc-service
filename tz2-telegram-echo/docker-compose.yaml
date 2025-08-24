@@ -9,8 +9,7 @@ services:
       - SESSION_STRING=${SESSION_STRING}
 
   lint:
-    build:
-      context: .
-      dockerfile: Dockerfile.lint
+    image: tts-grpc-service/lint-base:latest
+    working_dir: /app
     volumes:
-      - .:/app
+      - ../:/app:cached

@@ -1,7 +1,5 @@
 # tz2-telegram-echo/Dockerfile.lint
-FROM tts-grpc-service/lint:base
-FROM ghcr.io/olhafaruk/tts-lint:latest
+FROM tts-grpc-service/lint-base:latest
 
-# Копируем весь код сервиса
 WORKDIR /app
 COPY . /app
