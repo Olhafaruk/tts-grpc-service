@@ -1,0 +1,40 @@
+#pyproject.toml
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "x-pandas-chatbot"
+version = "0.1.0"
+description = "Chatbot‐помощник для таблиц с Pandas и RAG"
+authors = [{name = "Olha", email = "you@example.com"}]
+dependencies = [
+  "fastapi~=0.100.1",
+  "uvicorn[standard]~=0.23.2",
+  "grpcio~=1.62.3",
+  "grpcio-tools~=1.62.3",
+  "grpcio-reflection~=1.62.3",
+  "protobuf==4.24.0",
+  "sse-starlette~=1.8.2",
+  "weaviate-client~=3.23.2",
+  "pandas~=2.1.0",
+  "pyarrow~=12.0.1"
+]
+
+[project.optional-dependencies]
+dev = [
+  "-r requirements.txt",
+  "pytest==8.4.1",
+  "pytest-asyncio~=0.21.2",
+  "loguru~=0.7.0",
+  "black~=24.3.0",
+  "isort~=5.12.0",
+  "flake8~=6.1.0",
+  "mypy~=1.7.0",
+  "pre-commit~=3.5.0"
+]
+
+[project.scripts]
+assistant-http = "assistant.main:main_http"
+assistant-grpc = "assistant.main:main_grpc"

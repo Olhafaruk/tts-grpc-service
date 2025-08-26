@@ -1,0 +1,74 @@
+# -----------------------
+# Python bytecode, caches
+# -----------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# -----------------------
+# Virtual environments
+# -----------------------
+.venv/
+venv/
+env/
+ENV/
+
+# -----------------------
+# Test caches
+# -----------------------
+.pytest_cache/
+.mypy_cache/
+
+# -----------------------
+# Logs and databases
+# -----------------------
+logs/
+*.log
+*.sqlite3
+
+# -----------------------
+# Jupyter notebooks
+# -----------------------
+.ipynb_checkpoints/
+
+# -----------------------
+# Editor & IDE settings
+# -----------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# -----------------------
+# OS files
+# -----------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------
+# Environment files
+# -----------------------
+.env
+.env.*
+# если у вас есть Docker secrets или compose-override
+docker-compose.override.yml
+
+# -----------------------
+# Docker artifacts
+# -----------------------
+
+weaviate_data/
+
+docker-compose.*.log
+
+# -----------------------
+# Build / packaging
+# -----------------------
+build/
+dist/
+*.egg-info/
+.installed.cfg
+
+
+tmp_proto/
+

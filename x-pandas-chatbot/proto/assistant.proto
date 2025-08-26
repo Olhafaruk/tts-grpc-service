@@ -1,0 +1,22 @@
+
+
+syntax = "proto3";
+package assistant;
+
+service Assistant {
+  rpc UploadTable(UploadTableReq) returns (UploadTableRes);
+  rpc Ask(AskReq) returns (stream AskRes);
+}
+
+message UploadTableReq { string name = 1; bytes csv = 2; }
+message UploadTableRes { string table_id = 1; }
+
+message AskReq { repeated string table_ids = 1; string question = 2; }
+message AskRes { oneof payload {
+  Code code     = 1;
+  Log  log      = 2;
+  Text text     = 3;
+}}
+message Code { string content = 1; }
+message Log  { string line    = 1; }
+message Text { string msg     = 1; }
