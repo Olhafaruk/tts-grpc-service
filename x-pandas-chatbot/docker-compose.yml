@@ -1,0 +1,68 @@
+
+
+services:
+  t2v-transformers:
+    image: semitechnologies/transformers-inference:sentence-transformers-multi-qa-MiniLM-L6-cos-v1
+    container_name: t2v-transformers
+    ports:
+      - "8086:8080"
+    environment:
+      ENABLE_CUDA: "false"
+      MODEL_NAME: "sentence-transformers/multi-qa-MiniLM-L6-cos-v1"
+      ENABLE_MODULES: "text2vec-transformers"
+      DEFAULT_VECTORIZER_MODULE: "text2vec-transformers"
+
+  weaviate:
+    image: semitechnologies/weaviate:1.24.1
+    container_name: weaviate
+    depends_on:
+      - t2v-transformers
+    ports:
+      - "8085:8080"
+    environment:
+      ENABLE_MODULES: "text2vec-transformers"
+      DEFAULT_VECTORIZER_MODULE: "text2vec-transformers"
+      TRANSFORMERS_INFERENCE_API: "http://t2v-transformers:8080"
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
+      AUTO_SCHEMA_ENABLED: "true"
+      QUERY_DEFAULTS_LIMIT: 25
+      CLUSTER_HOSTNAME: "node1"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/v1/.well-known/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  pandas-grpc:
+    build: .
+    command: ["python", "-u", "-m", "src.assistant.interface.grpc.server"]
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app/src
+    ports:
+      - "50051:50051"
+    depends_on:
+      - weaviate
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+
+  pandas-http:
+    build: .
+    working_dir: /app
+    command: >
+      uvicorn assistant.interface.http.server:app
+      --host 0.0.0.0 --port 8000 --reload
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app/src
+    ports:
+      - "8000:8000"
+    depends_on:
+      - weaviate
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./requirements.txt:/app/requirements.txt

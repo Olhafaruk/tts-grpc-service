@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import assistant_pb2 as assistant__pb2
+from assistant.interface.grpc import assistant_pb2 as assistant__pb2
 
 
 class AssistantStub(object):

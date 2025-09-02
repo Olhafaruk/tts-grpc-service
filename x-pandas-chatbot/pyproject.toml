@@ -17,14 +17,21 @@ dependencies = [
   "grpcio-reflection~=1.62.3",
   "protobuf==4.24.0",
   "sse-starlette~=1.8.2",
+  "starlette>=0.27.0",
+  "httpx>=0.23.3",
   "weaviate-client~=3.23.2",
   "pandas~=2.1.0",
-  "pyarrow~=12.0.1"
+  "pyarrow~=12.0.1",
+  "openai>=0.27.0",
+  "python-dotenv>=1.0.0",
+  "openpyxl>=3.0.0",
+  "xlrd>=2.0.1"
+
 ]
 
 [project.optional-dependencies]
 dev = [
-  "-r requirements.txt",
+
   "pytest==8.4.1",
   "pytest-asyncio~=0.21.2",
   "loguru~=0.7.0",
@@ -37,4 +44,4 @@ dev = [
 
 [project.scripts]
 assistant-http = "assistant.main:main_http"
-assistant-grpc = "assistant.main:main_grpc"
+assistant-grpc = "assistant.interface.grpc.server:serve"

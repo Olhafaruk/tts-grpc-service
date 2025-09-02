@@ -1,11 +1,13 @@
 #interface/grpc/server.py
 
 import grpc
+import pandas as pd
 from concurrent import futures
 from assistant.interface.grpc import assistant_pb2, assistant_pb2_grpc
 from assistant.application.index_service import IndexService
 from assistant.application.query_service import QueryService
 from assistant.domain.question import Question
+
 
 class AssistantServicer(assistant_pb2_grpc.AssistantServicer):
     def __init__(self):
@@ -17,7 +19,8 @@ class AssistantServicer(assistant_pb2_grpc.AssistantServicer):
         return assistant_pb2.UploadTableRes(table_id=table.id)
 
     def Ask(self, request, context):
-        tables = [ self.indexer.upload_table("tmp", b"") ]  # позже замените на кэш
+        tables = [self.indexer.index_table(pd.DataFrame({"A": [1], "B": [2]}))]
+
         for part in self.querier.ask(tables, Question(request.question)):
             if "code" in part:
                 yield assistant_pb2.AskRes(code=assistant_pb2.Code(content=part["code"]))
