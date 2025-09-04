@@ -3,16 +3,16 @@
 import grpc
 import pandas as pd
 from concurrent import futures
+
 from assistant.interface.grpc import assistant_pb2, assistant_pb2_grpc
 from assistant.application.index_service import IndexService
-from assistant.application.query_service import QueryService
 from assistant.domain.question import Question
-
+from assistant.application.shared_services import qs
 
 class AssistantServicer(assistant_pb2_grpc.AssistantServicer):
     def __init__(self):
         self.indexer = IndexService()
-        self.querier = QueryService()
+        self.querier = qs
 
     def UploadTable(self, request, context):
         table = self.indexer.upload_table(request.name, request.csv)
@@ -35,6 +35,8 @@ def serve():
     server.add_insecure_port("[::]:50051")
     server.start()
     server.wait_for_termination()
+
+
 
 if __name__ == "__main__":
     serve()

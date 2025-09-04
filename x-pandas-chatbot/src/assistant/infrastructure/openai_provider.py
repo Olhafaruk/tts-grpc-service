@@ -1,47 +1,32 @@
 #src/assistant/infrastructure/openai_provider.py
 
 import os
+import logging
 import openai
 
-
-from dotenv import load_dotenv
-load_dotenv()
-
-# Основные env-переменные
-OPENAI_API_KEY      = os.getenv("OPENAI_API_KEY")
-OPENAI_API_BASE_URL = os.getenv("OPENAI_API_BASE_URL")
-OPENAI_MODEL        = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
-OPENAI_TEMPERATURE  = float(os.getenv("OPENAI_TEMPERATURE", 0.7))
-OPENAI_MAX_TOKENS   = int(os.getenv("OPENAI_MAX_TOKENS", 1024))
-
-# Конфигурируем SDK
-openai.api_key = OPENAI_API_KEY
-if OPENAI_API_BASE_URL:
-    openai.api_base = OPENAI_API_BASE_URL
+logger = logging.getLogger(__name__)
 
 class OpenAIProvider:
-    def __init__(self):
-        self.model       = OPENAI_MODEL
-        self.temperature = OPENAI_TEMPERATURE
-        self.max_tokens  = OPENAI_MAX_TOKENS
-
-    def generate(self, prompt: str) -> str:
-
-        resp = openai.ChatCompletion.create(
-            model=self.model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=self.temperature,
-            max_tokens=self.max_tokens,
-        )
-        return resp.choices[0].message.content
+    def __init__(self, api_key: str = None):
+        openai.api_key = api_key or os.getenv("OPENAI_API_KEY")
+        self.model = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
+        self.temperature = float(os.getenv("OPENAI_TEMPERATURE", 0.7))
+        self.top_p = float(os.getenv("OPENAI_TOP_P", 1.0))
+        self.max_tokens = int(os.getenv("OPENAI_MAX_TOKENS", 256))
 
     def complete(self, prompt: str, model: str = None) -> str:
+        logger.info(f"Calling OpenAI model '{model or self.model}' with prompt: {prompt[:100]}...")
 
-        chosen_model = model or self.model
-        resp = openai.ChatCompletion.create(
-            model=chosen_model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=self.temperature,
-            max_tokens=self.max_tokens,
-        )
-        return resp.choices[0].message.content
+        try:
+            response = openai.ChatCompletion.create(
+                model=model or self.model,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=self.temperature,
+                top_p=self.top_p,
+                max_tokens=self.max_tokens,
+                stop=None
+            )
+            return response.choices[0].message["content"]
+        except openai.OpenAIError as e:
+            logger.error(f"OpenAI call failed: {e}")
+            raise RuntimeError(f"OpenAI call failed: {e}")

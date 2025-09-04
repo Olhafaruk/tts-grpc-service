@@ -66,3 +66,18 @@ services:
       - ./src:/app/src
       - ./tests:/app/tests
       - ./requirements.txt:/app/requirements.txt
+
+  pandas-test:
+    build: .
+    working_dir: /app
+    command: pytest -v --tb=short
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app/src
+    depends_on:
+      - weaviate
+    volumes:
+      - ./src:/app/src
+      - ./tests:/app/tests
+      - ./requirements.txt:/app/requirements.txt

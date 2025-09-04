@@ -72,3 +72,6 @@ dist/
 
 tmp_proto/
 
+test_env.py
+test_openai.py
+samples

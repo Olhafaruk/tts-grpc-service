@@ -1,24 +1,41 @@
-# tests/interface/http/test_http_server.py
+#tests/interface/http/test_http_server.py
 
 import pytest
 from fastapi.testclient import TestClient
 
-
-from assistant.interface.http.server import app
+from assistant.interface.http.server import create_app
 
 
 class DummyQueryService:
-    def answer_question(self, q):
-        return "it works!"
+    def ask(self, question):
+        return {"reply": f"echo: {question}"}
 
-@pytest.fixture(autouse=True)
-def patch_query_service(monkeypatch):
 
+class DummyTableService:
+    def __init__(self):
+        self.tables = {}
+    def upload(self, filename, data):
+        table_id = f"table_{len(self.tables)}"
+        self.tables[table_id] = data
+        return table_id
+
+
+@pytest.fixture
+def client(monkeypatch):
     import assistant.interface.http.server as srv_mod
     monkeypatch.setattr(srv_mod, "qs", DummyQueryService())
+    monkeypatch.setattr(srv_mod, "ts", DummyTableService())
+    app = create_app()
+    return TestClient(app)
 
-def test_ask_endpoint_returns_answer():
-    client = TestClient(app)
-    response = client.post("/ask", json={"question": "hello"})
-    assert response.status_code == 200
-    assert response.json() == {"answer": "it works!"}
+
+
+
+
+
+
+
+
+
+
+

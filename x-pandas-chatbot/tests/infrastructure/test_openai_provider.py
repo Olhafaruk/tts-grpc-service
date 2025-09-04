@@ -12,10 +12,10 @@ def test_complete_invokes_openai(monkeypatch):
     class DummyResponse:
         choices = [DummyChoice()]
 
-    def fake_create(model, messages, max_tokens):
-        calls["model"] = model
-        calls["messages"] = messages
-        calls["max_tokens"] = max_tokens
+    def fake_create(*args, **kwargs):
+        calls["model"] = kwargs.get("model")
+        calls["messages"] = kwargs.get("messages")
+        calls["max_tokens"] = kwargs.get("max_tokens")
         return DummyResponse()
 
     monkeypatch.setattr(
@@ -30,4 +30,4 @@ def test_complete_invokes_openai(monkeypatch):
     assert answer == "fake-answer"
     assert calls["model"] == "mymodel"
     assert calls["messages"] == [{"role": "user", "content": "QUESTION"}]
-    assert calls["max_tokens"] == 256
+    assert calls["max_tokens"] == 1024

@@ -23,6 +23,16 @@ class DummyVDB:
     def __init__(self):
         self.client = DummyClient()
 
+    def index_table(self, table_id, name, df):
+        self.client.data_object.create(
+            props={
+                "table_id": table_id,
+                "text": f"Table cols={list(df.columns)} samples={df.head(3).to_dict()}"
+            },
+            class_name="TableDoc",
+            uuid=table_id
+        )
+
 @pytest.fixture(autouse=True)
 def fixed_uuid(monkeypatch):
 
@@ -36,15 +46,14 @@ def test_index_table_creates_object_and_returns_uuid():
     vdb = DummyVDB()
     service = IndexService(vdb=vdb)
 
-    returned_id = service.index_table(df)
+    table_id = "12345678-1234-5678-1234-567812345678"
+    returned_id = service.index_table(table_id, "test.csv", df)
 
-
-    assert returned_id == "12345678-1234-5678-1234-567812345678"
+    assert returned_id == table_id
 
 
     created = vdb.client.data_object.created
     assert len(created) == 1
-
     first = created[0]
     assert first["class_name"] == "TableDoc"
     assert first["id"] == returned_id
