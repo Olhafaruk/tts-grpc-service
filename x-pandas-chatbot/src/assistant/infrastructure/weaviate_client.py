@@ -40,7 +40,7 @@ class WeaviateClient:
                     raise
 
     def index_table(self, table_id, name, df):
-        text = f"{name}: cols={list(df.columns)} samples={df.head(3).to_dict()}"
+        text = df.to_csv(index=False)
         self.client.data_object.create(
             {"table_id": table_id, "text": text},
             class_name="TableDoc",

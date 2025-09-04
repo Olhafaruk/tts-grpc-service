@@ -76,6 +76,11 @@ class TableService:
     def list_ids(self) -> list[str]:
         return list(self._tables.keys())
 
+    def get_latest_id(self) -> str:
+        if not self._tables:
+            raise KeyError("No tables available")
+        return list(self._tables.keys())[-1]
+
     @property
     def tables(self) -> Dict[str, pd.DataFrame]:
         return self._tables

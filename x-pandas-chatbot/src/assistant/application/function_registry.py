@@ -52,5 +52,23 @@ FUNCTIONS = [
             },
             "required": ["table_id"]
         }
+    },
+
+    {
+        "name": "filter_rows",
+        "description": "Filter rows in a table by column value",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "table_id": {"type": "string"},
+                "column": {"type": "string"},
+                "value": {"type": "string"},
+                "n_rows": {"type": "integer", "default": 5}
+            },
+            "required": ["table_id", "column", "value"]
+        }
     }
+
+
+
 ]

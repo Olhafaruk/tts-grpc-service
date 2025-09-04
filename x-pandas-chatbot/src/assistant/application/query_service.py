@@ -86,6 +86,23 @@ class QueryService:
         df_store = self.ts
         logger.info(f"Executing function '{name}' with args: {args}")
 
+        if name in {"filter_rows", "show_table", "convert_currency", "rename_column"}:
+            table_id = args.get("table_id")
+            if not table_id or table_id not in self.ts.tables:
+                try:
+                    latest_id = self.ts.get_latest_id()
+                except KeyError:
+                    raise HTTPException(status_code=404, detail="No tables available")
+                args["table_id"] = latest_id
+                logger.info(f"Using latest table_id: {latest_id}")
+        logger.info(f"Final args for '{name}': {args}")
+
+        if name == "filter_rows":
+            df = df_store.get_any(args["table_id"])
+            filtered = df[df[args["column"]] == args["value"]]
+            rows = filtered.head(args.get("n_rows", 5)).to_dict(orient="records")
+            return {"rows": rows}
+
         if name == "merge_tables":
             df1 = df_store.get_any(args["table1_id"])
             df2 = df_store.get_any(args["table2_id"])
