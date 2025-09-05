@@ -1,4 +1,10 @@
 #src/assistant/application/action_handlers.py
+import pandas as pd
+
+def merge_tables(df1: pd.DataFrame, df2: pd.DataFrame, on: list[str], how: str = "inner") -> pd.DataFrame:
+    return df1.merge(df2, on=on, how=how)
+
+
 def convert_currency(df, currency: str, amount: float, date: str) -> dict:
     row = df[(df["Currency"] == currency) & (df["Date"] == date)]
     if row.empty:

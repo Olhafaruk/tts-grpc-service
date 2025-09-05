@@ -7,13 +7,18 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, UploadFile, File, Body, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, HTMLResponse
+from fastapi import Depends
 
 import time
 from typing import List
 
+from pydantic import BaseModel
+
+from assistant.application.query_service import QueryService
 from assistant.interface.http.openapi_config import custom_openapi
 from assistant.interface.http.models import AskRequest, AskResponse, TableUploadResponse
 from assistant.application.shared_services import ts, qs
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -147,8 +152,31 @@ def health_check():
 
 @app.get("/metrics")
 def metrics():
-    # Example: return number of indexed tables (stubbed)
     return {"tables_indexed": len(ts.tables)}
+
+class FunctionCall(BaseModel):
+    function: str
+    arguments: dict
+
+@app.post("/execute")
+def execute_function(call: FunctionCall, qs: QueryService = Depends(lambda: qs)):
+    try:
+        result = qs._execute(call.function, call.arguments)
+
+
+        if isinstance(result, dict):
+            table_id = result.get("table_id")
+            if table_id:
+                result["preview_url"] = f"/show_table_html?table_id={table_id}"
+            return result
+
+
+        return result
+
+    except Exception as e:
+        logger.error(f"Function execution failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.post("/show_table_html")
 def show_table_html(table_id: str = Body(..., embed=True)):
