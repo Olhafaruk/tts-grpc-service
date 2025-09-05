@@ -22,11 +22,11 @@ def convert_currency(df, currency: str, amount: float, date: str) -> dict:
 
 def aggregate_column(df, column: str, agg: str = "mean", group_by: str = None) -> dict:
     if group_by:
-        grouped = df.groupby(group_by)[column].agg(agg).reset_index()
-        return {"aggregated": grouped.to_dict(orient="records")}
+        grouped = df.groupby(group_by)[column].agg(agg)
+        return {"summary": grouped.to_dict()}
     else:
         value = getattr(df[column], agg)()
-        return {"aggregated": value, "text": f"{agg} of {column} = {value}"}
+        return {"summary": {agg: value}, "text": f"{agg} of {column} = {value}"}
 
 def compare_rows(df, currency1: str, currency2: str, date: str) -> dict:
     row1 = df[(df["Currency"] == currency1) & (df["Date"] == date)]
