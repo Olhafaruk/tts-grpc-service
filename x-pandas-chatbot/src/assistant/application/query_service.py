@@ -12,6 +12,7 @@ from assistant.application.table_store import TableService
 from typing import Dict, Any
 from assistant.application.function_registry import FUNCTIONS
 from assistant.infrastructure.weaviate_client import WeaviateClient
+from .action_handlers import convert_currency, aggregate_column, compare_rows, get_column_stats, list_columns
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +37,6 @@ class QueryService:
         return [(d["table_id"], d["text"]) for d in docs]
 
     def ask(self, user_question: str) -> Dict[str,Any]:
-
         hits = self.find_tables(user_question)
         if not hits:
             logger.warning(f"No relevant tables found for question: '{user_question}'")
@@ -68,16 +68,28 @@ class QueryService:
 
         if msg.function_call:
             name = msg.function_call.name
+            logger.info(f"Function name received: {name}")
+
             args = json.loads(msg.function_call.arguments)
+            if "table_id" not in args and table_ids:
+                args["table_id"] = table_ids[0]
+                logger.info(f"Auto-injected table_id: {table_ids[0]}")
 
             logger.info(f"Function call received: {name}")
             logger.info(f"Function arguments: {args}")
 
-            result = self._execute(name, args)
+            try:
+                result = self._execute(name, args)
+            except Exception as e:
+                logger.error(f"Execution failed: {e}")
+                raise HTTPException(status_code=500, detail=f"Function '{name}' failed: {e}")
 
             logger.info(f"Function result: {result}")
+            if "text" in result:
+                return {"reply": result["text"], "function": name, "arguments": args, "result": result}
 
-            return {"function":name, "arguments":args, "result":result}
+            return {"function": name, "arguments": args, "result": result}
+
 
         logger.info(f"LLM reply: {msg.content}")
         return {"reply": msg.content}
@@ -86,7 +98,11 @@ class QueryService:
         df_store = self.ts
         logger.info(f"Executing function '{name}' with args: {args}")
 
-        if name in {"filter_rows", "show_table", "convert_currency", "rename_column"}:
+        if name in {
+            "filter_rows", "show_table", "convert_currency", "rename_column",
+            "aggregate_column", "compare_rows", "scale_column_by_rate", "get_column_stats",
+            "list_columns"
+        }:
             table_id = args.get("table_id")
             if not table_id or table_id not in self.ts.tables:
                 try:
@@ -95,21 +111,30 @@ class QueryService:
                     raise HTTPException(status_code=404, detail="No tables available")
                 args["table_id"] = latest_id
                 logger.info(f"Using latest table_id: {latest_id}")
+
         logger.info(f"Final args for '{name}': {args}")
+        df = df_store.get_any(args["table_id"])
 
         if name == "filter_rows":
-            df = df_store.get_any(args["table_id"])
             filtered = df[df[args["column"]] == args["value"]]
             rows = filtered.head(args.get("n_rows", 5)).to_dict(orient="records")
             return {"rows": rows}
 
         if name == "merge_tables":
-            df1 = df_store.get_any(args["table1_id"])
-            df2 = df_store.get_any(args["table2_id"])
-            merged = df1.merge(df2, on=args["on"], how=args.get("how", "inner"))
-            return {
-                "table_id": df_store.upload("merged.csv", merged.to_csv(index=False).encode())
-            }
+            try:
+                df1 = df_store.get_any(args["table1_id"])
+                df2 = df_store.get_any(args["table2_id"])
+                logger.info(f"Merging tables on: {args['on']}")
+                logger.info(f"Table1 columns: {df1.columns.tolist()}")
+                logger.info(f"Table2 columns: {df2.columns.tolist()}")
+
+                merged = df1.merge(df2, on=args["on"], how=args.get("how", "inner"))
+                return {
+                    "table_id": df_store.upload("merged.csv", merged.to_csv(index=False).encode())
+                }
+            except Exception as e:
+                logger.error(f"Merge failed: {e}")
+                raise HTTPException(status_code=500, detail=f"Merge error: {e}")
 
         if name == "rename_column":
             df = df_store.get_any(args["table_id"])
@@ -121,22 +146,36 @@ class QueryService:
             }
 
         if name == "convert_currency":
-            df = df_store.get_any(args["table_id"])
+            return convert_currency(df, args["currency"], args["amount"], args["date"])
+
+        if name == "scale_column_by_rate":
             if args["column"] not in df.columns:
                 raise HTTPException(status_code=400, detail=f"Column '{args['column']}' not found in table.")
             try:
                 df[args["column"]] *= args["exchange_rate"]
             except Exception as e:
-                logger.error(f"Failed to convert currency in column '{args['column']}': {e}")
-                raise HTTPException(status_code=500, detail=f"Currency conversion failed: {e}")
+                logger.error(f"Failed to scale column '{args['column']}': {e}")
+                raise HTTPException(status_code=500, detail=f"Scaling failed: {e}")
             return {
-                "table_id": df_store.upload("converted.csv", df.to_csv(index=False).encode())
+                "table_id": df_store.upload("scaled.csv", df.to_csv(index=False).encode())
             }
 
+        if name == "aggregate_column":
+            return aggregate_column(df, args["column"], args.get("agg", "mean"), args.get("group_by"))
+
+        if name == "compare_rows":
+            return compare_rows(df, args["currency1"], args["currency2"], args["date"])
+
         if name == "show_table":
-            df = df_store.get_any(args["table_id"])
             rows = df.head(args.get("n_rows", 5)).to_dict(orient="records")
             return {"rows": rows}
+
+        if name == "get_column_stats":
+            return get_column_stats(df, args["column"])
+
+        if name == "list_columns":
+            return list_columns(df)
+
 
         logger.warning(f"Unknown function requested: {name}")
         raise HTTPException(status_code=400, detail=f"Unknown function '{name}'")

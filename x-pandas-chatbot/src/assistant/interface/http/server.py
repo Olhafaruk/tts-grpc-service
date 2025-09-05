@@ -9,13 +9,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, HTMLResponse
 
 import time
-from typing import List, Optional
-
-from pydantic import BaseModel
-
+from typing import List
 
 from assistant.interface.http.openapi_config import custom_openapi
+from assistant.interface.http.models import AskRequest, AskResponse, TableUploadResponse
 from assistant.application.shared_services import ts, qs
+import logging
+
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -37,17 +38,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-class TableUploadResponse(BaseModel):
-    table_ids: List[str]
-
-class AskRequest(BaseModel):
-    question: str
-
-class AskResponse(BaseModel):
-    answer: str
-    table_id: Optional[str] = None
-    preview_url: Optional[str] = None
 
 
 @app.post("/upload", response_model=TableUploadResponse)
@@ -80,6 +70,10 @@ async def ask(
             "Compare Rates": {
                 "summary": "Compare EUR and GBP",
                 "value": {"question": "Compare exchange rates for EUR and GBP on 2025-01-01"}
+            },
+            "Scale Column": {
+                "summary": "Multiply column by rate",
+                "value": {"question": "Multiply all values in column 'Rate to USD' by 1.2"}
             }
         }
     )
@@ -87,11 +81,22 @@ async def ask(
     answer = qs.ask(request.question)
 
     if isinstance(answer, dict):
-        if "reply" in answer:
-            return AskResponse(answer=answer["reply"])
-        return AskResponse(answer=json.dumps(answer, ensure_ascii=False))
+        table_id = (
+                answer.get("result", {}).get("table_id")
+                or answer.get("arguments", {}).get("table_id")
+        )
+        preview_url = f"/show_table_html?table_id={table_id}" if table_id else None
+
+        reply = answer.get("reply") or answer.get("text") or json.dumps(answer, ensure_ascii=False)
+
+        return AskResponse(
+            answer=reply,
+            table_id=table_id,
+            preview_url=preview_url
+        )
 
     return AskResponse(answer=answer)
+
 
 @app.post("/ask/stream")
 def ask_stream(
@@ -117,16 +122,21 @@ def ask_stream(
     def stream():
         try:
             result = qs.ask(question)
-            text = result.get("reply") or result.get("result")
+            text = result.get("reply") or result.get("text") or json.dumps(result, ensure_ascii=False)
+
             if not text:
                 yield f"data: [ERROR] No reply or result found\n\n"
                 return
-            if isinstance(text, dict):
-                text = json.dumps(text)
-                yield f"data: {json.dumps(text, ensure_ascii=False)}\n\n"
 
-                time.sleep(0.05)
+            if isinstance(text, dict):
+                text = json.dumps(text, ensure_ascii=False)
+            logger.info(f"Streaming result: {text}")
+
+            yield f"data: {text}\n\n"
+            time.sleep(0.05)
+
         except Exception as e:
+            logger.error(f"Streaming error: {e}")
             yield f"data: [ERROR] {str(e)}\n\n"
 
     return StreamingResponse(stream(), media_type="text/event-stream")
