@@ -7,34 +7,35 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import descriptor_pool as _descriptor_pool
 from google.protobuf import symbol_database as _symbol_database
 from google.protobuf.internal import builder as _builder
+
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
 
-
-
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0f\x61ssistant.proto\x12\tassistant\"+\n\x0eUploadTableReq\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0b\n\x03\x63sv\x18\x02 \x01(\x0c\"\"\n\x0eUploadTableRes\x12\x10\n\x08table_id\x18\x01 \x01(\t\"-\n\x06\x41skReq\x12\x11\n\ttable_ids\x18\x01 \x03(\t\x12\x10\n\x08question\x18\x02 \x01(\t\"t\n\x06\x41skRes\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x0f.assistant.CodeH\x00\x12\x1d\n\x03log\x18\x02 \x01(\x0b\x32\x0e.assistant.LogH\x00\x12\x1f\n\x04text\x18\x03 \x01(\x0b\x32\x0f.assistant.TextH\x00\x42\t\n\x07payload\"\x17\n\x04\x43ode\x12\x0f\n\x07\x63ontent\x18\x01 \x01(\t\"\x13\n\x03Log\x12\x0c\n\x04line\x18\x01 \x01(\t\"\x13\n\x04Text\x12\x0b\n\x03msg\x18\x01 \x01(\t2\x7f\n\tAssistant\x12\x43\n\x0bUploadTable\x12\x19.assistant.UploadTableReq\x1a\x19.assistant.UploadTableRes\x12-\n\x03\x41sk\x12\x11.assistant.AskReq\x1a\x11.assistant.AskRes0\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
+    b'\n\x0f\x61ssistant.proto\x12\tassistant"+\n\x0eUploadTableReq\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0b\n\x03\x63sv\x18\x02 \x01(\x0c""\n\x0eUploadTableRes\x12\x10\n\x08table_id\x18\x01 \x01(\t"-\n\x06\x41skReq\x12\x11\n\ttable_ids\x18\x01 \x03(\t\x12\x10\n\x08question\x18\x02 \x01(\t"t\n\x06\x41skRes\x12\x1f\n\x04\x63ode\x18\x01 \x01(\x0b\x32\x0f.assistant.CodeH\x00\x12\x1d\n\x03log\x18\x02 \x01(\x0b\x32\x0e.assistant.LogH\x00\x12\x1f\n\x04text\x18\x03 \x01(\x0b\x32\x0f.assistant.TextH\x00\x42\t\n\x07payload"\x17\n\x04\x43ode\x12\x0f\n\x07\x63ontent\x18\x01 \x01(\t"\x13\n\x03Log\x12\x0c\n\x04line\x18\x01 \x01(\t"\x13\n\x04Text\x12\x0b\n\x03msg\x18\x01 \x01(\t2\x7f\n\tAssistant\x12\x43\n\x0bUploadTable\x12\x19.assistant.UploadTableReq\x1a\x19.assistant.UploadTableRes\x12-\n\x03\x41sk\x12\x11.assistant.AskReq\x1a\x11.assistant.AskRes0\x01\x62\x06proto3'
+)
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
-_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'assistant_pb2', _globals)
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "assistant_pb2", _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
-  DESCRIPTOR._options = None
-  _globals['_UPLOADTABLEREQ']._serialized_start=30
-  _globals['_UPLOADTABLEREQ']._serialized_end=73
-  _globals['_UPLOADTABLERES']._serialized_start=75
-  _globals['_UPLOADTABLERES']._serialized_end=109
-  _globals['_ASKREQ']._serialized_start=111
-  _globals['_ASKREQ']._serialized_end=156
-  _globals['_ASKRES']._serialized_start=158
-  _globals['_ASKRES']._serialized_end=274
-  _globals['_CODE']._serialized_start=276
-  _globals['_CODE']._serialized_end=299
-  _globals['_LOG']._serialized_start=301
-  _globals['_LOG']._serialized_end=320
-  _globals['_TEXT']._serialized_start=322
-  _globals['_TEXT']._serialized_end=341
-  _globals['_ASSISTANT']._serialized_start=343
-  _globals['_ASSISTANT']._serialized_end=470
+    DESCRIPTOR._options = None
+    _globals["_UPLOADTABLEREQ"]._serialized_start = 30
+    _globals["_UPLOADTABLEREQ"]._serialized_end = 73
+    _globals["_UPLOADTABLERES"]._serialized_start = 75
+    _globals["_UPLOADTABLERES"]._serialized_end = 109
+    _globals["_ASKREQ"]._serialized_start = 111
+    _globals["_ASKREQ"]._serialized_end = 156
+    _globals["_ASKRES"]._serialized_start = 158
+    _globals["_ASKRES"]._serialized_end = 274
+    _globals["_CODE"]._serialized_start = 276
+    _globals["_CODE"]._serialized_end = 299
+    _globals["_LOG"]._serialized_start = 301
+    _globals["_LOG"]._serialized_end = 320
+    _globals["_TEXT"]._serialized_start = 322
+    _globals["_TEXT"]._serialized_end = 341
+    _globals["_ASSISTANT"]._serialized_start = 343
+    _globals["_ASSISTANT"]._serialized_end = 470
 # @@protoc_insertion_point(module_scope)

@@ -1,4 +1,4 @@
-#src/assistant/application/function_registry.py
+# src/assistant/application/function_registry.py
 
 FUNCTIONS = [
     {
@@ -10,10 +10,14 @@ FUNCTIONS = [
                 "table1_id": {"type": "string"},
                 "table2_id": {"type": "string"},
                 "on": {"type": "array", "items": {"type": "string"}},
-                "how": {"type": "string", "enum": ["inner", "left", "right", "outer"], "default": "inner"}
+                "how": {
+                    "type": "string",
+                    "enum": ["inner", "left", "right", "outer"],
+                    "default": "inner",
+                },
             },
-            "required": ["table1_id", "table2_id", "on"]
-        }
+            "required": ["table1_id", "table2_id", "on"],
+        },
     },
     {
         "name": "rename_column",
@@ -23,26 +27,25 @@ FUNCTIONS = [
             "properties": {
                 "table_id": {"type": "string"},
                 "old_name": {"type": "string"},
-                "new_name": {"type": "string"}
+                "new_name": {"type": "string"},
             },
-            "required": ["table_id", "old_name", "new_name"]
-        }
+            "required": ["table_id", "old_name", "new_name"],
+        },
     },
     {
         "name": "convert_currency",
         "description": "Convert a specific amount from one currency to USD using a rate from a specific date",
         "parameters": {
             "type": "object",
-             "properties": {
+            "properties": {
                 "table_id": {"type": "string"},
                 "currency": {"type": "string"},
                 "amount": {"type": "number"},
-                "date": {"type": "string", "format": "date"}
+                "date": {"type": "string", "format": "date"},
             },
-         "required": ["table_id", "currency", "amount", "date"]
-     }
+            "required": ["table_id", "currency", "amount", "date"],
+        },
     },
-
     {
         "name": "show_table",
         "description": "Show the first N rows of a table",
@@ -50,12 +53,11 @@ FUNCTIONS = [
             "type": "object",
             "properties": {
                 "table_id": {"type": "string"},
-                "n_rows": {"type": "integer", "default": 5}
+                "n_rows": {"type": "integer", "default": 5},
             },
-            "required": ["table_id"]
-        }
+            "required": ["table_id"],
+        },
     },
-
     {
         "name": "filter_rows",
         "description": "Filter rows in a table by column value",
@@ -65,12 +67,11 @@ FUNCTIONS = [
                 "table_id": {"type": "string"},
                 "column": {"type": "string"},
                 "value": {"type": "string"},
-                "n_rows": {"type": "integer", "default": 5}
+                "n_rows": {"type": "integer", "default": 5},
             },
-            "required": ["table_id", "column", "value"]
-        }
+            "required": ["table_id", "column", "value"],
+        },
     },
-
     {
         "name": "scale_column_by_rate",
         "description": "Multiply all values in a numeric column by a given exchange rate",
@@ -79,10 +80,10 @@ FUNCTIONS = [
             "properties": {
                 "table_id": {"type": "string"},
                 "column": {"type": "string"},
-                "exchange_rate": {"type": "number"}
+                "exchange_rate": {"type": "number"},
             },
-            "required": ["table_id", "column", "exchange_rate"]
-         }
+            "required": ["table_id", "column", "exchange_rate"],
+        },
     },
     {
         "name": "compare_rows",
@@ -93,10 +94,10 @@ FUNCTIONS = [
                 "table_id": {"type": "string"},
                 "currency1": {"type": "string"},
                 "currency2": {"type": "string"},
-                "date": {"type": "string", "format": "date"}
+                "date": {"type": "string", "format": "date"},
             },
-            "required": ["table_id", "currency1", "currency2", "date"]
-        }
+            "required": ["table_id", "currency1", "currency2", "date"],
+        },
     },
     {
         "name": "aggregate_column",
@@ -109,12 +110,12 @@ FUNCTIONS = [
                 "agg": {
                     "type": "string",
                     "enum": ["mean", "sum", "max", "min"],
-                    "default": "mean"
+                    "default": "mean",
                 },
-                "group_by": {"type": "string"}
+                "group_by": {"type": "string"},
             },
-            "required": ["table_id", "column"]
-        }
+            "required": ["table_id", "column"],
+        },
     },
     {
         "name": "get_column_stats",
@@ -122,22 +123,19 @@ FUNCTIONS = [
         "parameters": {
             "type": "object",
             "properties": {
-             "table_id": {"type": "string"},
-                "column": {"type": "string"}
+                "table_id": {"type": "string"},
+                "column": {"type": "string"},
             },
-         "required": ["table_id", "column"]
-        }
+            "required": ["table_id", "column"],
+        },
     },
     {
-         "name": "list_columns",
+        "name": "list_columns",
         "description": "List all column names in a table",
         "parameters": {
             "type": "object",
-            "properties": {
-                "table_id": {"type": "string"}
-            },
-         "required": ["table_id"]
-     }
-    }
-
+            "properties": {"table_id": {"type": "string"}},
+            "required": ["table_id"],
+        },
+    },
 ]

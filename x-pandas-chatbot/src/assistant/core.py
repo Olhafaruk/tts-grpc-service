@@ -1,5 +1,4 @@
-#src/assistant/core.py
-
+# src/assistant/core.py
 
 
 from fastapi import FastAPI
@@ -7,8 +6,6 @@ from fastapi.openapi.utils import get_openapi
 
 
 class PatchedFastAPI(FastAPI):
-
-
     def openapi(self):
         if self.openapi_schema:
             return self.openapi_schema
@@ -20,7 +17,6 @@ class PatchedFastAPI(FastAPI):
             routes=self.routes,
         )
 
-
         comp_name = "Body_upload_upload_post"
         schemas = openapi_schema.setdefault("components", {}).setdefault("schemas", {})
         comp = schemas.get(comp_name)
@@ -29,10 +25,8 @@ class PatchedFastAPI(FastAPI):
             # обязательно format: binary для items
             files_prop["items"]["format"] = "binary"
 
-
         path_item = (
-            openapi_schema
-            .get("paths", {})
+            openapi_schema.get("paths", {})
             .get("/upload", {})
             .get("post", {})
             .get("requestBody", {})
@@ -42,7 +36,7 @@ class PatchedFastAPI(FastAPI):
         if path_item is not None:
             path_item.setdefault("encoding", {})["files"] = {
                 "style": "form",
-                "explode": True
+                "explode": True,
             }
 
         self.openapi_schema = openapi_schema

@@ -1,10 +1,12 @@
-#src/assistant/infrastructure/openai_provider.py
+# src/assistant/infrastructure/openai_provider.py
 
-import os
 import logging
+import os
+
 import openai
 
 logger = logging.getLogger(__name__)
+
 
 class OpenAIProvider:
     def __init__(self, api_key: str = None):
@@ -15,7 +17,9 @@ class OpenAIProvider:
         self.max_tokens = int(os.getenv("OPENAI_MAX_TOKENS", 256))
 
     def complete(self, prompt: str, model: str = None) -> str:
-        logger.info(f"Calling OpenAI model '{model or self.model}' with prompt: {prompt[:100]}...")
+        logger.info(
+            f"Calling OpenAI model '{model or self.model}' with prompt: {prompt[:100]}..."
+        )
 
         try:
             response = openai.ChatCompletion.create(
@@ -24,7 +28,7 @@ class OpenAIProvider:
                 temperature=self.temperature,
                 top_p=self.top_p,
                 max_tokens=self.max_tokens,
-                stop=None
+                stop=None,
             )
             return response.choices[0].message["content"]
         except openai.OpenAIError as e:

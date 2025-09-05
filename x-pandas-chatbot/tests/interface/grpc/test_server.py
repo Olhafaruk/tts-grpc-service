@@ -1,9 +1,9 @@
-#tests/interface/grpc/test_server.py
+# tests/interface/grpc/test_server.py
 
-import pytest
 import pandas as pd
-from assistant.interface.grpc.server import AssistantServicer
+import pytest
 from assistant.interface.grpc import assistant_pb2
+from assistant.interface.grpc.server import AssistantServicer
 
 
 class DummyQueryService:
@@ -16,10 +16,3 @@ def servicer(monkeypatch):
     # Подменяем глобальный qs внутри сервера
     monkeypatch.setattr("assistant.interface.grpc.server.qs", DummyQueryService())
     return AssistantServicer()
-
-
-
-
-
-
-

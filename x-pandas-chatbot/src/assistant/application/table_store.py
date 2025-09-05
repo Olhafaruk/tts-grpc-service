@@ -1,11 +1,11 @@
 # src/assistant/application/table_store.py
+import logging
 import uuid
 from io import BytesIO
-import pandas as pd
 from typing import Dict
 
+import pandas as pd
 from assistant.infrastructure.weaviate_client import WeaviateClient
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +33,9 @@ class TableService:
             raise ValueError(f"Error reading file {filename}: {e}")
 
         if filename in self._filenames:
-            logger.warning(f"File '{filename}' already exists. Overwriting previous table with new data.")
+            logger.warning(
+                f"File '{filename}' already exists. Overwriting previous table with new data."
+            )
 
             old_id = self._filenames[filename]
             self._tables.pop(old_id, None)
@@ -51,7 +53,6 @@ class TableService:
 
         logger.info(f"Uploaded table '{filename}' with ID {table_id}")
         return table_id
-
 
     def get(self, table_id: str) -> pd.DataFrame:
         return self._tables[table_id]

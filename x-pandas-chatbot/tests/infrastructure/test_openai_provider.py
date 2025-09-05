@@ -1,7 +1,8 @@
-#tests/infrastructure/test_openai_provider.py
+# tests/infrastructure/test_openai_provider.py
 
-import pytest
 import assistant.infrastructure.openai_provider as oai_mod
+import pytest
+
 
 def test_complete_invokes_openai(monkeypatch):
     calls = {}
@@ -9,6 +10,7 @@ def test_complete_invokes_openai(monkeypatch):
     class DummyChoice:
         def __init__(self):
             self.message = {"content": "fake-answer"}
+
     class DummyResponse:
         choices = [DummyChoice()]
 
@@ -19,9 +21,7 @@ def test_complete_invokes_openai(monkeypatch):
         return DummyResponse()
 
     monkeypatch.setattr(
-        oai_mod.openai.ChatCompletion,
-        "create",
-        staticmethod(fake_create)
+        oai_mod.openai.ChatCompletion, "create", staticmethod(fake_create)
     )
 
     provider = oai_mod.OpenAIProvider()

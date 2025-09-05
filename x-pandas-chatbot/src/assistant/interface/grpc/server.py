@@ -1,13 +1,14 @@
-#interface/grpc/server.py
+# interface/grpc/server.py
+
+from concurrent import futures
 
 import grpc
 import pandas as pd
-from concurrent import futures
-
-from assistant.interface.grpc import assistant_pb2, assistant_pb2_grpc
 from assistant.application.index_service import IndexService
-from assistant.domain.question import Question
 from assistant.application.shared_services import qs
+from assistant.domain.question import Question
+from assistant.interface.grpc import assistant_pb2, assistant_pb2_grpc
+
 
 class AssistantServicer(assistant_pb2_grpc.AssistantServicer):
     def __init__(self):
@@ -23,11 +24,14 @@ class AssistantServicer(assistant_pb2_grpc.AssistantServicer):
 
         for part in self.querier.ask(tables, Question(request.question)):
             if "code" in part:
-                yield assistant_pb2.AskRes(code=assistant_pb2.Code(content=part["code"]))
+                yield assistant_pb2.AskRes(
+                    code=assistant_pb2.Code(content=part["code"])
+                )
             elif "log" in part:
                 yield assistant_pb2.AskRes(log=assistant_pb2.Log(line=part["log"]))
             else:
                 yield assistant_pb2.AskRes(text=assistant_pb2.Text(msg=part["text"]))
+
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
@@ -35,7 +39,6 @@ def serve():
     server.add_insecure_port("[::]:50051")
     server.start()
     server.wait_for_termination()
-
 
 
 if __name__ == "__main__":

@@ -1,11 +1,13 @@
-#src/assistant/interface/http/models.py
+# src/assistant/interface/http/models.py
+
+from typing import List, Optional
 
 from pydantic import BaseModel
-from typing import List, Optional
 
 
 class AskRequest(BaseModel):
     question: str
+
 
 class AskResponse(BaseModel):
     answer: str
@@ -15,4 +17,3 @@ class AskResponse(BaseModel):
 
 class TableUploadResponse(BaseModel):
     table_ids: List[str]
-

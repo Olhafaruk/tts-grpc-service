@@ -1,11 +1,11 @@
 # src/assistant/application/index_service.py
 
-import uuid
-import pandas as pd
 import logging
-from assistant.infrastructure.weaviate_client import WeaviateClient
+import uuid
 from io import BytesIO
 
+import pandas as pd
+from assistant.infrastructure.weaviate_client import WeaviateClient
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,9 @@ class IndexService:
 
     def index_table(self, table_id: str, name: str, df: pd.DataFrame) -> str:
         self.vdb.index_table(table_id, name, df)
-        logger.info(f"Table indexed successfully: id={table_id}, name='{name}', columns={list(df.columns)}")
+        logger.info(
+            f"Table indexed successfully: id={table_id}, name='{name}', columns={list(df.columns)}"
+        )
         return table_id
 
     def upload_table(self, filename: str, data: bytes) -> str:
@@ -35,4 +37,3 @@ class IndexService:
 
         table_id = str(uuid.uuid4())
         return self.index_table(table_id, filename, df)
-

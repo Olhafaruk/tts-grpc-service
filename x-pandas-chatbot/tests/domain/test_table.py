@@ -1,6 +1,7 @@
-#tests/domain/test_table.py
+# tests/domain/test_table.py
 
 from assistant.domain.table import TableDoc
+
 
 def test_tabledoc_dataclass_fields():
     tid = "abcd-1234"

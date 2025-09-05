@@ -59,7 +59,11 @@ def test_merge_tables(query_service, table_service):
 def test_rename_column(query_service, table_service):
     csv_data = b"Currency,Rate to USD\nEUR,1.1\nGBP,1.25"
     table_id = table_service.upload("rates.csv", csv_data)
-    args = {"table_id": table_id, "old_name": "Rate to USD", "new_name": "Exchange Rate"}
+    args = {
+        "table_id": table_id,
+        "old_name": "Rate to USD",
+        "new_name": "Exchange Rate",
+    }
     result = query_service._execute("rename_column", args)
     df = table_service.get_any(result["table_id"])
     assert "Exchange Rate" in df.columns
@@ -69,7 +73,12 @@ def test_rename_column(query_service, table_service):
 def test_aggregate_column(query_service, table_service):
     csv_data = b"Country,Rate to USD\nGermany,1.1\nGermany,1.2\nUK,1.25"
     table_id = table_service.upload("rates.csv", csv_data)
-    args = {"table_id": table_id, "column": "Rate to USD", "agg": "mean", "group_by": "Country"}
+    args = {
+        "table_id": table_id,
+        "column": "Rate to USD",
+        "agg": "mean",
+        "group_by": "Country",
+    }
     result = query_service._execute("aggregate_column", args)
     assert "Germany" in result["summary"]
     assert "UK" in result["summary"]
@@ -79,7 +88,12 @@ def test_aggregate_column(query_service, table_service):
 def test_convert_currency(query_service, table_service):
     csv_data = b"Currency,Rate to USD,Date\nEUR,1.1,2025-01-01\nGBP,1.25,2025-01-01"
     table_id = table_service.upload("rates.csv", csv_data)
-    args = {"table_id": table_id, "currency": "EUR", "amount": 100, "date": "2025-01-01"}
+    args = {
+        "table_id": table_id,
+        "currency": "EUR",
+        "amount": 100,
+        "date": "2025-01-01",
+    }
     result = query_service._execute("convert_currency", args)
     assert "text" in result
     assert "EUR" in result["text"]

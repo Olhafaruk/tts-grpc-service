@@ -1,11 +1,13 @@
 # src/assistant/application/execution_service.py
 
+import logging
+
 from assistant.application.index_service import IndexService
 from assistant.application.query_service import QueryService
 from assistant.infrastructure.openai_provider import OpenAIProvider
-import logging
 
 logger = logging.getLogger(__name__)
+
 
 class ExecutionService:
     def __init__(self):
