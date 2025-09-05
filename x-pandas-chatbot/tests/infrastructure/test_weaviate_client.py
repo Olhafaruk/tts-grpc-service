@@ -1,8 +1,6 @@
 # tests/infrastructure/test_weaviate_client.py
 
 import assistant.infrastructure.weaviate_client as wc_mod
-import pytest
-from weaviate.exceptions import UnexpectedStatusCodeException
 
 
 class DummySchema:

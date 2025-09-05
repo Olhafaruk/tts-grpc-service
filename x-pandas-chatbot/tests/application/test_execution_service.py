@@ -1,7 +1,6 @@
 # tests/application/test_execution_service.py
 
 import assistant.application.execution_service as exec_mod
-import pytest
 
 
 class DummyVDB:

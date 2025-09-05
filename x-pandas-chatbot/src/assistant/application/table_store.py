@@ -34,7 +34,8 @@ class TableService:
 
         if filename in self._filenames:
             logger.warning(
-                f"File '{filename}' already exists. Overwriting previous table with new data."
+                f"File '{filename}' already exists."
+                f" Overwriting previous table with new data."
             )
 
             old_id = self._filenames[filename]

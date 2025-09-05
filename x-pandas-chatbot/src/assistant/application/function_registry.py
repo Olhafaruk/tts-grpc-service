@@ -34,7 +34,10 @@ FUNCTIONS = [
     },
     {
         "name": "convert_currency",
-        "description": "Convert a specific amount from one currency to USD using a rate from a specific date",
+        "description": (
+            "Convert a specific amount from one currency"
+            " to USD using a rate from a specific date"
+        ),
         "parameters": {
             "type": "object",
             "properties": {
@@ -74,7 +77,8 @@ FUNCTIONS = [
     },
     {
         "name": "scale_column_by_rate",
-        "description": "Multiply all values in a numeric column by a given exchange rate",
+        "description": "Multiply all values in a numeric column"
+        " by a given exchange rate",
         "parameters": {
             "type": "object",
             "properties": {
@@ -101,7 +105,8 @@ FUNCTIONS = [
     },
     {
         "name": "aggregate_column",
-        "description": "Aggregate values in a column using a specified method, optionally grouped by another column",
+        "description": "Aggregate values in a column using a specified method, optionally "
+        "grouped by another column",
         "parameters": {
             "type": "object",
             "properties": {

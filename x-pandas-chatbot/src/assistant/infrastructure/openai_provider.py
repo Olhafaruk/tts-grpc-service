@@ -18,7 +18,8 @@ class OpenAIProvider:
 
     def complete(self, prompt: str, model: str = None) -> str:
         logger.info(
-            f"Calling OpenAI model '{model or self.model}' with prompt: {prompt[:100]}..."
+            f"Calling OpenAI model '{model or self.model}'"
+            f" with prompt: {prompt[:100]}..."
         )
 
         try:

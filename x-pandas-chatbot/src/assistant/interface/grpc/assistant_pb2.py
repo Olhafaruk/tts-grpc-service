@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, "assistant_pb2", _globals)
-if _descriptor._USE_C_DESCRIPTORS == False:
+if not _descriptor._USE_C_DESCRIPTORS:
     DESCRIPTOR._options = None
     _globals["_UPLOADTABLEREQ"]._serialized_start = 30
     _globals["_UPLOADTABLEREQ"]._serialized_end = 73

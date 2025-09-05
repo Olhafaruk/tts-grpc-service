@@ -136,7 +136,7 @@ def ask_stream(
             )
 
             if not text:
-                yield f"data: [ERROR] No reply or result found\n\n"
+                yield "data: [ERROR] No reply or result found\n\n"
                 return
 
             if isinstance(text, dict):

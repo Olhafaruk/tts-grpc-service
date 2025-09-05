@@ -17,7 +17,8 @@ class IndexService:
     def index_table(self, table_id: str, name: str, df: pd.DataFrame) -> str:
         self.vdb.index_table(table_id, name, df)
         logger.info(
-            f"Table indexed successfully: id={table_id}, name='{name}', columns={list(df.columns)}"
+            f"Table indexed successfully:"
+            f" id={table_id}, name='{name}', columns={list(df.columns)}"
         )
         return table_id
 

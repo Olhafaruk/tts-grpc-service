@@ -1,8 +1,7 @@
 # tests/interface/grpc/test_server.py
 
-import pandas as pd
+
 import pytest
-from assistant.interface.grpc import assistant_pb2
 from assistant.interface.grpc.server import AssistantServicer
 
 

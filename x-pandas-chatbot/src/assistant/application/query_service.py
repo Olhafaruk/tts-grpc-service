@@ -60,7 +60,8 @@ class QueryService:
                     {"role": "system", "content": "You are a table assistant."},
                     {
                         "role": "user",
-                        "content": f"Context tables:\n{context}\n\nQuestion: {user_question}",
+                        "content": f"Context tables:"
+                        f"\n{context}\n\nQuestion: {user_question}",
                     },
                 ],
                 functions=FUNCTIONS,

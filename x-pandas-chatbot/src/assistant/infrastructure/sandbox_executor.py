@@ -26,4 +26,4 @@ class SandboxExecutor:
             "script.py",
         ]
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        return [l.decode().rstrip() for l in proc.stdout]
+        return [line.decode().rstrip() for line in proc.stdout]

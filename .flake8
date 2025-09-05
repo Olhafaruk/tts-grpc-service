@@ -1,6 +1,7 @@
 # .flake8
 [flake8]
-max-line-length = 88
+
+max-line-length = 100
 
 # Отключаем проверку докстрингов по D1xx
 extend-ignore =
@@ -10,6 +11,7 @@ extend-ignore =
     D103,
     D104
 exclude =
+    assistant_pb2.py
     .venv,
     __pycache__,
     src/tts_grpc_service/grpc/audio_service_pb2.py

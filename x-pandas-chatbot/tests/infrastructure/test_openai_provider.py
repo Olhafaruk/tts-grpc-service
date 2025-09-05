@@ -1,7 +1,6 @@
 # tests/infrastructure/test_openai_provider.py
 
 import assistant.infrastructure.openai_provider as oai_mod
-import pytest
 
 
 def test_complete_invokes_openai(monkeypatch):
