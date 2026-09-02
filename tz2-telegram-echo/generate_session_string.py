@@ -7,7 +7,7 @@ from telethon.sessions import StringSession
 API_ID = int(os.getenv("API_ID"))
 API_HASH = os.getenv("API_HASH")
 PHONE = os.getenv("PHONE")
-TWO_FA = os.getenv("TWO_FA_PASSWORD")  # если есть 2FA, иначе пустая строка
+TWO_FA = os.getenv("TWO_FA_PASSWORD")
 
 
 async def main():

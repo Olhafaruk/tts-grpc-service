@@ -2,11 +2,11 @@
 
 [![CI Status](https://github.com/Olhafaruk/tts-grpc-service/actions/workflows/test.yml/badge.svg)](https://github.com/Olhafaruk/tts-grpc-service/actions/workflows/test.yml)
 
-Сервис синтеза речи с архитектурой DDD, gRPC, тестами и Docker-инфраструктурой.
+A text-to-speech service built with DDD architecture. gRPC. tests. and Docker infrastructure.
 
 ---
 
-## 📦 Установка
+## 📦 Installation
 
 ```bash
 git clone https://github.com/Olhafaruk/tts-grpc-service.git
@@ -16,67 +16,67 @@ pip install -r requirements.txt
 
 ---
 
-## 🐳 Запуск сервера
+## 🐳 Running the Server
 
 ```bash
 docker-compose up --build
 ```
 
-📍 gRPC-сервер стартует на `localhost:50051`
+📍 The gRPC server starts at `localhost:50051`
 
 ---
 
-## 🎧 Клиент
+## 🎧 Client
 
 ```bash
 python -m tts_grpc_service.client.test_grpc
 
 ```
 
-🔊 Сохранит аудиофайл `out.mp3` по тексту `"Приветствую, Halli Hallo, gRPC!"`
+🔊 Saves an audio file `out.mp3` for the text `"Приветствую, Halli Hallo, gRPC!"`
 
 ---
 
-## 🧪 Тесты
+## 🧪 Tests
 
-### ✅ Модульные
+### ✅ Unit Tests
 
 ```bash
 pytest tests/domain tests/services tests/repository
 ```
 
-### 🔗 Интеграционные (если сервер работает)
+### 🔗 Integration Tests (if the server is running)
 
 ```bash
 pytest tests/integration
 ```
 
-📎 Проверяется весь gRPC-поток: клиент → сервер → провайдер → ответ
+📎 The entire gRPC flow is tested: client → server → provider → response
 
 ---
 
-## 🧹 Линтинг и форматирование
+## 🧹 Linting and Formatting
 
-Проект использует [`pre-commit`](https://pre-commit.com) для автоматической проверки качества кода. Включены следующие инструменты:
+The project uses [`pre-commit`](https://pre-commit.com) for automatic code quality checks. Included tools:
 
-- [`black`](https://github.com/psf/black) — автоформатирование Python-кода  
-- [`isort`](https://github.com/PyCQA/isort) — сортировка импортов  
-- [`flake8`](https://github.com/PyCQA/flake8) — проверка стиля и ошибок  
+- [`black`](https://github.com/psf/black) — Python code auto-formatter 
+- [`isort`](https://github.com/PyCQA/isort) — import sorting 
+- [`flake8`](https://github.com/PyCQA/flake8) — style and error checking 
 
-### 🚀 Запуск линтеров через Docker
+### 🚀 Running Linters via Docker
 
 ```bash
-# Собрать образ линтера (если менялся Dockerfile)
+# Build the linter image (if Dockerfile changed)
 docker compose -f docker-compose.lint.yaml build lint
 
-# Или подтянуть готовый образ
+# Or pull the ready-made image
 docker compose -f docker-compose.lint.yaml pull lint
 
-# Прогнать линтеры по всем файлам
+# Run linters on all files
 docker compose -f docker-compose.lint.yaml run --rm lint
 ```
 
-📌 По умолчанию запускается:
+📌 By default, the following command runs:
 ```bash
 pre-commit run --all-files --show-diff-on-failure
 ```
@@ -84,28 +84,28 @@ pre-commit run --all-files --show-diff-on-failure
 ---
 
 
-## ⚙️ Makefile команды
+## ⚙️ Makefile Commands
 
-| Команда       | Описание                               |
-|---------------|------------------------------------------|
-| `make test`   | Запустить все модульные тесты            |
-| `make client` | Отправить запрос и сохранить `out.mp3`   |
-| `make server` | Поднять сервер в Docker                  |
-| `make clean`  | Удалить временные файлы и кеши           |
+| Command       | Description                       |
+|---------------|-----------------------------------|
+| `make test`   | Run all unit tests                |
+| `make client` | Send a request and save `out.mp3` |
+| `make server` | Start the server in Docker        |
+| `make clean`  | Remove temporary files and caches |
 
 ---
 
-## 🧠 Пример запроса
+## 🧠 Example Request
 
 ```text
 SynthesisRequest(text="Hello, Bonjour, Привет")
 ```
 
-🔁 Ответ: `audio` в байтах → сохраняется как mp3
+🔁 Response: `audio` bytes → saved as mp3
 
 ---
 
-## 🧰 Технологии
+## 🧰 Technologies
 
 - 🐍 Python 3.11
 - ⚡ gRPC / protobuf
@@ -116,39 +116,39 @@ SynthesisRequest(text="Hello, Bonjour, Привет")
 
 ---
 
-## 📂 Структура проекта
+## 📂 Project Structure
 
 ```
-cmd/                       # Точка входа приложения
-src/tts_grpc_service/      # Исходный код сервиса
-├── client/                # gRPC-клиент
-├── domain/                # Модели и доменная логика
-├── grpc/                  # gRPC сгенерированные файлы
-├── repository/            # Провайдеры и работа с внешними API
-├── services/              # Бизнес-логика
-├── grpc_server.py         # Запуск gRPC сервера
-tests/                     # Тесты
-├── domain/                # Тесты доменной логики
-├── repository/            # Тесты репозиториев
-├── services/              # Тесты сервисов
-└── integration/           # Интеграционные тесты
+cmd/                       # Application entry point
+src/tts_grpc_service/      # Service source code
+├── client/                # gRPC client
+├── domain/                # Domain models and logic
+├── grpc/                  # Generated gRPC files
+├── repository/            # Providers and external API handling
+├── services/              # Business logic
+├── grpc_server.py         # gRPC server startup
+tests/                     # Tests
+├── domain/                # Domain logic tests
+├── repository/            # Repository tests
+├── services/              # Sevice tests
+└── integration/           # Integration tests
 
 
 ---
 
 ## 🛠 CI/CD
 
-При каждом push запускается GitHub Actions:  
-✅ Автоматическая проверка модульных тестов  
-🧪 Интеграционные тесты выполняются локально (сервер необходим)
+GitHub Actions run on every push:
+✅ Automatic unit test execution
+🧪 Integration tests are executed locally (server required)
 
 ---
 
-## 👩‍💻 Автор
+## 👩‍💻 Author
 
-Разработка: **Olha Faruk**  
-📌 Проект выполнен по техническому заданию  
-✨ Добавлена автоматизация, тесты, структура и клиентская проверка
+Developed by Olha Faruk  
+📌 Project implemented according to a technical specification
+✨ Automation, tests, structure, and client verification added
 
 
 

@@ -1,69 +1,70 @@
 # Telegram Echo User-Bot
 
-Лёгкий Telegram-клиент, который эхо-отвечает на любые входящие сообщения от лица обычного пользователя. 
-Построен с учётом принципов чистой архитектуры и полностью контейнеризован.
+A lightweight Telegram client that echoes any incoming messages as a regular user.
+Built with Clean Architecture principles and fully containerized.
 
 ---
 
-## Основные возможности
+## Features
 
-- Эхо-ответ: повторяет любой текст входящего сообщения  
-- Работает как пользовательский бот (Telethon), обходя 2FA через заранее сгенерированный Session String  
-- Структура по DDD/Clean Architecture: разделение на domain, repository, services, server  
-- Запуск в один шаг через Docker Compose
+- Echo response: repeats any incoming message text
+- Works as a user bot (Telethon), bypassing 2FA via a pre-generated Session String
+- Structured with DDD/Clean Architecture: separated into domain, repository, services, server 
+- One-step launch via Docker Compose
 
 ---
 
-## Быстрый старт
+## Quick Start
 
-1. Клонировать репозиторий и перейти в папку проекта  
+1. Clone the repository and navigate to the project folder 
    ```bash
    git clone https://github.com/Olhafaruk/tts-grpc-service.git
    cd tts-grpc-service/tz2-telegram-echo
    ```
 
-2. Скопировать пример env-файла и заполнить переменные  
+2. Copy the example env file and fill in the variables 
    ```bash
    cp .env.example .env
-   # В .env указать:
-   # API_ID, API_HASH — из my.telegram.org
+   # In .env specify:
+   # API_ID, API_HASH — from my.telegram.org
    #PHONE=+71234567890  
    #SESSION_NAME=echo 
-   #Затем получить через `python generate_session.py  SESSION_STRING и вписать в .env
-   #после чего PHONE и SESSION_NAME=echo можно удалить
+   # Then generate SESSION_STRING via `python generate_session.py` and paste it into .env
+   # After that, PHONE and SESSION_NAME=echo can be removed
    
    ```
 
-3. Собрать и запустить контейнеры  
+3. Build and start the containers
    ```bash
    docker-compose up --build
    ```
 
-4. Отправить любое сообщение в чат с аккаунтом — бот-клиент тут же эхо-ответит.
+4. Send any message to the account — the bot client will immediately echo it back.
 
 ---
 
-## Структура проекта
+## Project Structure
 
 ```
 .
-├── domain/           # Сущности (Message, ChatSession и т.п.)
-├── repository/       # Инициализация Telethon Client
-├── services/         # Бизнес-логика эха
-├── server/           # Обработчик событий NewMessage
-├── generate_session.py  # Скрипт для создания SESSION_STRING
-├── .env.example      # Пример переменных окружения
+├── domain/             # Entities (Message, ChatSession, etc.)
+├── repository/         # Telethon Client initialization
+├── services/           # Echo business logic
+├── server/             # NewMessage event handler
+├── generate_session.py # Script to create SESSION_STRING
+├── .env.example        # Example environment variables
 ├── Dockerfile
 └── docker-compose.yml
+
 ```
 
 ---
 
-## Зависимости
+## Dependencies
 
 - Python 3.11  
 - telethon  
 - docker, docker-compose  
 
 ---
-## Автор Olha Faruk
+## Author Olha Faruk

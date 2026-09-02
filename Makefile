@@ -3,19 +3,19 @@
 .PHONY: test client server clean
 
 test:
-    @echo " Запускаем pytest"
+    @echo " Running pytest"
     pytest tests/
 
 client:
-    @echo " Запуск gRPC-клиента"
+    @echo " Running gRPC client"
     python -m client.test_grpc
 
 server:
-    @echo " Запуск gRPC-сервера через Docker"
+    @echo " Running gRPC server via Docker"
     docker-compose up -d
 
 clean:
-    @echo " Очистка временных файлов"
+    @echo " Cleaning temporary files"
     find . -name '__pycache__' -type d -exec rm -r {} +
     find . -name '*.pyc' -delete
 
