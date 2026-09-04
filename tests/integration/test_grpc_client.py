@@ -26,6 +26,6 @@ def test_synthesize_returns_audio_for_various_languages(text):
     request = audio_service_pb2.SynthesisRequest(text=text)
     response = stub.Synthesize(request)
 
-    # Проверяем, что вернулся байтовый результат
+    # Checking that a byte result has been returned
     assert isinstance(response.audio, bytes)
     assert len(response.audio) > 1000
